@@ -1,26 +1,8 @@
+import 'package:commonground/core/map/presentation/map_shell_binding.dart';
 import 'package:flutter/material.dart';
 
+/// Entry point — composition and DI live in [MapShellBinding] (SA-004).
 void main() {
-  runApp(const CommonGroundApp());
+  runApp(const MapShellBinding());
 }
 
-/// Application root.
-///
-/// This is the only place where concrete implementations are wired into
-/// domain contracts (SA-004). Constructor-inject every dependency from here
-/// down — no service locator, no globals.
-class CommonGroundApp extends StatelessWidget {
-  const CommonGroundApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'CommonGround',
-      home: Scaffold(
-        body: Center(
-          child: Text('CommonGround'),
-        ),
-      ),
-    );
-  }
-}
