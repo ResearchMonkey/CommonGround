@@ -6,8 +6,8 @@
 .pub-cache/
 .pub/
 build/
-pubspec.lock
 *.iml
+# pubspec.lock is intentionally committed (this is an app, not a library)
 
 # Coverage
 coverage/
