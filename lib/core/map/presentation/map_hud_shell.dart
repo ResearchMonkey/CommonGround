@@ -25,7 +25,7 @@ class MapHudShell extends StatelessWidget {
         children: [
           ColoredBox(
             key: mapLayerKey,
-            color: CgColors.mapPlaceholder,
+            color: CgColors.bg,
           ),
           Positioned.fill(
             child: SafeArea(

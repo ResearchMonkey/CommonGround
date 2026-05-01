@@ -42,4 +42,6 @@ enum HudIconGlyph {
   cogGear,
   shieldBadge,
   anchorPin,
+  mapPinPlus,
+  hamburgerMenu,
 }

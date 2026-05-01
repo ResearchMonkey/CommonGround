@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:logger/logger.dart';
+import 'package:logger/logger.dart' hide LogEvent;
 
 import 'package:commonground/core/shared/data/cg_logger_impl.dart';
 import 'package:commonground/core/shared/domain/failure.dart';

@@ -38,3 +38,7 @@ ios/Flutter/Flutter.podspec
 *.g.dart
 *.freezed.dart
 .generated/
+
+# Local-only artifacts (AVD screencaps, ad-hoc run logs)
+.avd-snapshot*.png
+.flutter-run.log

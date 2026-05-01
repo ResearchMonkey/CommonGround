@@ -1,3 +1,4 @@
+import 'package:commonground/core/map/domain/position_snapshot_event.dart';
 import 'package:commonground/core/map/presentation/cg_design_tokens.dart';
 import 'package:commonground/core/map/presentation/hud_compass.dart';
 import 'package:commonground/core/map/presentation/icons/hud_icon.dart';
@@ -13,11 +14,20 @@ void main() {
   testWidgets('MapHudShell stacks map placeholder then HUD overlay', (
     WidgetTester tester,
   ) async {
+    final cubit = MapHudChromeCubit();
+    cubit.applyPositionSnapshot(
+      PositionSnapshotEvent(
+        sourceFeature: 'test',
+        timestamp: DateTime.utc(2026),
+        latitude: 42.3601,
+        longitude: -71.0589,
+      ),
+    );
     await tester.pumpWidget(
       MaterialApp(
         theme: buildCgTheme(),
-        home: BlocProvider(
-          create: (_) => MapHudChromeCubit(),
+        home: BlocProvider.value(
+          value: cubit,
           child: const MapHudShell(),
         ),
       ),
@@ -29,7 +39,7 @@ void main() {
     final placeholder = tester.widget<ColoredBox>(
       find.byKey(MapHudShell.mapLayerKey),
     );
-    expect(placeholder.color, CgColors.mapPlaceholder);
+    expect(placeholder.color, CgColors.bg);
 
     expect(find.byType(SafeArea), findsOneWidget);
     expect(find.byType(Stack), findsAtLeastNWidgets(3));

@@ -2,7 +2,7 @@ import 'package:commonground/core/shared/domain/cg_logger_contract.dart';
 import 'package:commonground/core/shared/domain/failure.dart';
 import 'package:commonground/core/shared/domain/log_event.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:logger/logger.dart';
+import 'package:logger/logger.dart' hide LogEvent;
 
 typedef LogEventPublisher = Either<BusFailure, Unit> Function(LogEvent event);
 

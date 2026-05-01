@@ -1,4 +1,5 @@
 import 'package:commonground/core/map/presentation/cg_design_tokens.dart';
+import 'package:commonground/core/map/presentation/frosted_hud_chrome.dart';
 import 'package:flutter/material.dart';
 
 /// Linear scale reference with labeled distance (mock length until map tiles).
@@ -13,22 +14,15 @@ class HudScaleBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(CgRadii.sm),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: CgColors.hudSurfaceFrosted,
-          borderRadius: BorderRadius.circular(CgRadii.sm),
-          border: Border.all(color: CgColors.hudOutline),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(
-            CgSpacing.sm,
-            CgSpacing.xs,
-            CgSpacing.sm,
-            CgSpacing.sm,
-          ),
-          child: Column(
+    return FrostedHudChrome(
+      borderRadius: CgRadii.sm,
+      padding: const EdgeInsets.fromLTRB(
+        CgSpacing.sm,
+        CgSpacing.xs,
+        CgSpacing.sm,
+        CgSpacing.sm,
+      ),
+      child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -42,12 +36,11 @@ class HudScaleBar extends StatelessWidget {
               Text(
                 distanceLabel,
                 style: theme.textTheme.labelSmall?.copyWith(
-                  color: CgColors.hudOnSurface,
+                  fontFamily: CgTypography.mono,
+                  color: CgColors.text,
                 ),
               ),
             ],
-          ),
-        ),
       ),
     );
   }
@@ -58,7 +51,7 @@ class _ScaleTicksPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final line = Paint()
       ..strokeWidth = 1
-      ..color = CgColors.hudOnSurface;
+      ..color = CgColors.text;
     canvas.drawLine(Offset.zero, Offset(size.width, 0), line);
 
     final tickHeight = size.height;

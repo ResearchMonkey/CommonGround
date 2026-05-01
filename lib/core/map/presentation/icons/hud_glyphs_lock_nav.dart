@@ -5,6 +5,7 @@ void _paintPadlockClosed(Canvas canvas, Rect r, Paint p) {
   final body = RRect.fromRectXY(
     Rect.fromLTWH(r.left + inset, r.center.dy - inset * 0.2, r.width - inset * 2, r.bottom - r.center.dy),
     inset * 0.75,
+    inset * 0.75,
   );
   canvas.drawRRect(body, p);
   final arcPath = Path()
@@ -24,6 +25,7 @@ void _paintPadlockOpen(Canvas canvas, Rect r, Paint p) {
   final inset = r.shortestSide * 0.14;
   final body = RRect.fromRectXY(
     Rect.fromLTWH(r.left + inset, r.center.dy - inset * 0.2, r.width - inset * 2, r.bottom - r.center.dy),
+    inset * 0.75,
     inset * 0.75,
   );
   canvas.drawRRect(body, p);
@@ -70,7 +72,7 @@ void _paintNavigationArrow(Canvas canvas, Rect r, Paint p) {
 
 void _paintTunedRadio(Canvas canvas, Rect r, Paint p) {
   final inset = r.shortestSide * 0.14;
-  final shell = RRect.fromRectXY(r.deflate(inset), inset);
+  final shell = RRect.fromRectXY(r.deflate(inset), inset, inset);
   final bounds = shell.outerRect;
   final shellSide = math.min(bounds.width, bounds.height);
   canvas.drawRRect(shell, p);

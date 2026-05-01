@@ -1,4 +1,5 @@
 import 'package:commonground/core/map/presentation/cg_design_tokens.dart';
+import 'package:commonground/core/map/presentation/frosted_hud_chrome.dart';
 import 'package:flutter/material.dart';
 
 /// Top HUD strip: connection pill, channel label, coordinate format badge.
@@ -22,18 +23,13 @@ class HudTopBar extends StatelessWidget {
         horizontal: CgSpacing.md,
         vertical: CgSpacing.sm,
       ),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: CgColors.hudSurface,
-          borderRadius: BorderRadius.circular(CgRadii.md),
-          border: Border.all(color: CgColors.hudOutline),
+      child: FrostedHudChrome(
+        borderRadius: CgRadii.md,
+        padding: const EdgeInsets.symmetric(
+          horizontal: CgSpacing.md,
+          vertical: CgSpacing.sm,
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: CgSpacing.md,
-            vertical: CgSpacing.sm,
-          ),
-          child: Row(
+        child: Row(
             children: [
               _ConnectionPill(
                 online: connectionOnline,
@@ -44,7 +40,8 @@ class HudTopBar extends StatelessWidget {
                 child: Text(
                   channelLabel,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: CgColors.hudOnSurface,
+                    fontFamily: CgTypography.mono,
+                    color: CgColors.text,
                     fontWeight: FontWeight.w600,
                   ),
                   overflow: TextOverflow.ellipsis,
@@ -57,7 +54,6 @@ class HudTopBar extends StatelessWidget {
                 labelSmall: theme.textTheme.labelSmall,
               ),
             ],
-          ),
         ),
       ),
     );
@@ -76,10 +72,10 @@ class _ConnectionPill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dotColor =
-        online ? CgColors.accent : CgColors.signalOffline;
+        online ? CgColors.ok : CgColors.danger;
     final bg = online
-        ? CgColors.accent.withValues(alpha: 0.14)
-        : CgColors.signalOffline.withValues(alpha: 0.16);
+        ? CgColors.ok.withValues(alpha: 0.14)
+        : CgColors.danger.withValues(alpha: 0.16);
     return DecoratedBox(
       decoration: BoxDecoration(
         color: bg,
@@ -104,7 +100,10 @@ class _ConnectionPill extends StatelessWidget {
             const SizedBox(width: CgSpacing.xs),
             Text(
               online ? 'Online' : 'Offline',
-              style: labelSmall?.copyWith(color: CgColors.hudOnSurface),
+              style: labelSmall?.copyWith(
+                fontFamily: CgTypography.mono,
+                color: CgColors.text,
+              ),
             ),
           ],
         ),
@@ -126,7 +125,7 @@ class _CoordFormatBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: CgColors.mapPlaceholder,
+        color: CgColors.bg,
         borderRadius: BorderRadius.circular(CgRadii.sm),
         border: Border.all(color: CgColors.hudOutline),
       ),
@@ -138,7 +137,8 @@ class _CoordFormatBadge extends StatelessWidget {
         child: Text(
           label,
           style: labelSmall?.copyWith(
-            color: CgColors.accent,
+            fontFamily: CgTypography.mono,
+            color: CgColors.ok,
             fontWeight: FontWeight.w600,
           ),
         ),

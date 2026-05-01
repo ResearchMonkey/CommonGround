@@ -1,3 +1,4 @@
+import 'package:commonground/core/map/domain/coord_format.dart';
 import 'package:commonground/core/map/domain/position_snapshot_event.dart';
 import 'package:commonground/core/map/presentation/map_hud_chrome_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,14 +41,18 @@ class MapHudChromeCubit extends Cubit<MapHudChromeState> {
 
   /// Applies a snapshot pushed through [IngestLayerContract] → bus → HUD stub.
   void applyPositionSnapshot(PositionSnapshotEvent event) {
-    final latHemisphere = event.latitude >= 0 ? 'N' : 'S';
-    final lonHemisphere = event.longitude >= 0 ? 'E' : 'W';
     emit(
       state.copyWith(
-        selfCoordLine:
-            'SELF  ${event.latitude.abs().toStringAsFixed(4)}° $latHemisphere  '
-            '${event.longitude.abs().toStringAsFixed(4)}° $lonHemisphere',
+        selfCoordLine: formatSelfCoord(
+          event.latitude,
+          event.longitude,
+          state.coordFormat,
+        ),
       ),
     );
+  }
+
+  void setCoordFormat(CoordFormat format) {
+    emit(state.copyWith(coordFormat: format));
   }
 }

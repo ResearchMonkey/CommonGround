@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:commonground/core/map/domain/coord_format.dart';
 import 'package:commonground/core/map/domain/position_snapshot_event.dart';
 import 'package:commonground/core/map/presentation/map_hud_chrome_cubit.dart';
 import 'package:commonground/core/map/presentation/map_hud_chrome_state.dart';
@@ -66,8 +67,10 @@ void main() {
     );
 
     blocTest<MapHudChromeCubit, MapHudChromeState>(
-      'applyPositionSnapshot reformats self coord line',
-      build: () => MapHudChromeCubit(),
+      'applyPositionSnapshot formats SELF in DD when CoordFormat.dd',
+      build: () => MapHudChromeCubit(
+        initialState: const MapHudChromeState(coordFormat: CoordFormat.dd),
+      ),
       act: (c) => c.applyPositionSnapshot(
         PositionSnapshotEvent(
           sourceFeature: 'ingest',
@@ -84,5 +87,32 @@ void main() {
         ),
       ],
     );
+
+    blocTest<MapHudChromeCubit, MapHudChromeState>(
+      'applyPositionSnapshot formats SELF in MGRS by default',
+      build: () => MapHudChromeCubit(),
+      act: (c) => c.applyPositionSnapshot(
+        PositionSnapshotEvent(
+          sourceFeature: 'ingest',
+          timestamp: DateTime.utc(2026),
+          latitude: 42.3601,
+          longitude: -71.0589,
+        ),
+      ),
+      expect: () => [
+        isA<MapHudChromeState>().having(
+          (s) => s.selfCoordLine,
+          'selfCoordLine starts with SELF and contains MGRS zone',
+          startsWith('SELF  19T'),
+        ),
+      ],
+    );
+
+    test('coordFormatBadge derives from coordFormat', () {
+      const dd = MapHudChromeState(coordFormat: CoordFormat.dd);
+      const mgrs = MapHudChromeState(coordFormat: CoordFormat.mgrs);
+      expect(dd.coordFormatBadge, 'DD');
+      expect(mgrs.coordFormatBadge, 'MGRS');
+    });
   });
 }

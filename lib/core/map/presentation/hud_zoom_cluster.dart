@@ -1,4 +1,5 @@
 import 'package:commonground/core/map/presentation/cg_design_tokens.dart';
+import 'package:commonground/core/map/presentation/frosted_hud_chrome.dart';
 import 'package:commonground/core/map/presentation/icons/hud_icon.dart';
 import 'package:commonground/core/map/presentation/icons/hud_icon_glyph.dart';
 import 'package:flutter/material.dart';
@@ -25,17 +26,11 @@ class HudZoomCluster extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(CgRadii.md),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: CgColors.hudSurfaceFrosted,
-          borderRadius: BorderRadius.circular(CgRadii.md),
-          border: Border.all(color: CgColors.hudOutline),
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: Column(
+    return FrostedHudChrome(
+      borderRadius: CgRadii.md,
+      child: Material(
+        color: Colors.transparent,
+        child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               IconButton(
@@ -43,7 +38,7 @@ class HudZoomCluster extends StatelessWidget {
                 onPressed: onZoomIn,
                 icon: HudIcon(
                   glyph: HudIconGlyph.zoomPlus,
-                  color: CgColors.hudOnSurface,
+                  color: CgColors.text,
                   size: CgSpacing.xl,
                 ),
               ),
@@ -54,7 +49,8 @@ class HudZoomCluster extends StatelessWidget {
                 child: Text(
                   zoomLevelLabel,
                   style: theme.textTheme.labelSmall?.copyWith(
-                    color: CgColors.accent,
+                    fontFamily: CgTypography.mono,
+                    color: CgColors.ok,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -64,12 +60,11 @@ class HudZoomCluster extends StatelessWidget {
                 onPressed: onZoomOut,
                 icon: HudIcon(
                   glyph: HudIconGlyph.zoomMinus,
-                  color: CgColors.hudOnSurface,
+                  color: CgColors.text,
                   size: CgSpacing.xl,
                 ),
               ),
             ],
-          ),
         ),
       ),
     );

@@ -8,6 +8,7 @@ import 'package:commonground/core/map/presentation/map_hud_chrome_cubit.dart';
 import 'package:commonground/core/map/presentation/map_hud_shell.dart';
 import 'package:commonground/core/shared/data/cg_logger_impl.dart';
 import 'package:commonground/core/shared/domain/cg_logger_contract.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
@@ -45,10 +46,18 @@ class _MapShellBindingState extends State<MapShellBinding> {
     );
     _logBusSubscriber = LogEventBusSubscriberStub(_bus);
 
+    if (kDebugMode) {
+      _seedDebugFixture();
+    }
+  }
+
+  /// Debug-only seed: emits a Boston [PositionSnapshotEvent] so VS.1 has
+  /// something to render before the real ingest source ships in VS.2.
+  void _seedDebugFixture() {
     _ingest
         .submit(
           PositionSnapshotEvent(
-            sourceFeature: 'ingest',
+            sourceFeature: 'debug_seed',
             timestamp: DateTime.now().toUtc(),
             latitude: 42.3601,
             longitude: -71.0589,
@@ -77,6 +86,7 @@ class _MapShellBindingState extends State<MapShellBinding> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'CommonGround',
+      debugShowCheckedModeBanner: false,
       theme: buildCgTheme(),
       home: BlocProvider<MapHudChromeCubit>.value(
         value: _chromeCubit,

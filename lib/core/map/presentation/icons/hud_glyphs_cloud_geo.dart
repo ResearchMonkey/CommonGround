@@ -4,7 +4,7 @@ double _pad(Rect r) => r.shortestSide * 0.14;
 
 Path _cloudBlobPath(Rect r) {
   final inset = r.shortestSide * 0.12;
-  final rr = RRect.fromRectXY(r.deflate(inset), inset * 2);
+  final rr = RRect.fromRectXY(r.deflate(inset), inset * 2, inset * 2);
   return Path()..addRRect(rr);
 }
 
@@ -83,7 +83,7 @@ void _paintStopwatchRing(Canvas canvas, Rect r, Paint p) {
 
 void _paintCalendarSheet(Canvas canvas, Rect r, Paint p) {
   final inset = r.shortestSide * 0.12;
-  final sheet = RRect.fromRectXY(r.deflate(inset), inset * 1.2);
+  final sheet = RRect.fromRectXY(r.deflate(inset), inset * 1.2, inset * 1.2);
   final rect = sheet.outerRect;
   canvas.drawRRect(sheet, p);
   canvas.drawLine(
@@ -190,7 +190,7 @@ void _paintPencilScratch(Canvas canvas, Rect r, Paint p) {
 void _paintRulerTicks(Canvas canvas, Rect r, Paint p) {
   final inset = r.shortestSide * 0.18;
   final bar = Rect.fromLTWH(r.left + inset, r.center.dy - inset * 0.35, r.width - inset * 2, inset * 0.7);
-  canvas.drawRRect(RRect.fromRectXY(bar, inset * 0.25), p);
+  canvas.drawRRect(RRect.fromRectXY(bar, inset * 0.25, inset * 0.25), p);
   final divisions = 5;
   for (var i = 0; i <= divisions; i++) {
     final x = bar.left + bar.width * i / divisions;

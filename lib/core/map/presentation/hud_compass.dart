@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:commonground/core/map/presentation/cg_design_tokens.dart';
+import 'package:commonground/core/map/presentation/frosted_hud_chrome.dart';
 import 'package:commonground/core/map/presentation/icons/hud_icon.dart';
 import 'package:commonground/core/map/presentation/icons/hud_icon_glyph.dart';
 import 'package:flutter/material.dart';
@@ -23,17 +24,10 @@ class HudCompass extends StatelessWidget {
     final theme = Theme.of(context);
     final dialRotation = trackUpMode ? 0.0 : -bearingDegrees * math.pi / 180;
 
-    return ClipRRect(
-        borderRadius: BorderRadius.circular(CgRadii.lg),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: CgColors.hudSurfaceFrosted,
-            borderRadius: BorderRadius.circular(CgRadii.lg),
-            border: Border.all(color: CgColors.hudOutline),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(CgSpacing.sm),
-            child: Column(
+    return FrostedHudChrome(
+        borderRadius: CgRadii.lg,
+        padding: const EdgeInsets.all(CgSpacing.sm),
+        child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Row(
@@ -42,14 +36,14 @@ class HudCompass extends StatelessWidget {
                     Text(
                       trackUpMode ? 'TRK' : 'N↑',
                       style: theme.textTheme.labelSmall?.copyWith(
-                        color: CgColors.accent,
+                        color: CgColors.ok,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                     if (northLocked)
                       HudIcon(
                         glyph: HudIconGlyph.padlockClosed,
-                        color: CgColors.hudOnSurfaceMuted,
+                        color: CgColors.text2,
                         size: CgSpacing.md,
                       ),
                   ],
@@ -79,13 +73,12 @@ class HudCompass extends StatelessWidget {
                 Text(
                   '${bearingDegrees.round().toString().padLeft(3, '0')}°',
                   style: theme.textTheme.labelSmall?.copyWith(
-                    color: CgColors.hudOnSurface,
+                    fontFamily: CgTypography.mono,
+                    color: CgColors.text,
                   ),
                 ),
               ],
             ),
-          ),
-        ),
     );
   }
 }
@@ -104,7 +97,7 @@ class _CompassRosePainter extends CustomPainter {
     final major = Paint()
       ..strokeWidth = 2
       ..strokeCap = StrokeCap.round
-      ..color = CgColors.hudOnSurfaceMuted;
+      ..color = CgColors.text2;
 
     const ticks = 12;
     for (var i = 0; i < ticks; i++) {
@@ -123,7 +116,7 @@ class _CompassRosePainter extends CustomPainter {
       text: TextSpan(
         text: 'N',
         style: TextStyle(
-          color: CgColors.hudOnSurface,
+          color: CgColors.text,
           fontSize: 11,
           fontWeight: FontWeight.w700,
         ),
@@ -151,7 +144,7 @@ class _NorthNeedlePainter extends CustomPainter {
       ..close();
     canvas.drawPath(
       path,
-      Paint()..color = CgColors.signalOffline,
+      Paint()..color = CgColors.danger,
     );
   }
 

@@ -2,7 +2,7 @@ part of 'hud_glyph_paint.dart';
 
 void _paintMapOverview(Canvas canvas, Rect r, Paint p) {
   final inset = r.shortestSide * 0.1;
-  final body = RRect.fromRectXY(r.deflate(inset), inset * 1.5);
+  final body = RRect.fromRectXY(r.deflate(inset), inset * 1.5, inset * 1.5);
   canvas.drawRRect(body, p);
   canvas.drawLine(
     Offset(r.left + inset * 2.2, r.bottom - inset * 2),
@@ -52,6 +52,7 @@ void _paintSpeechBubble(Canvas canvas, Rect r, Paint p) {
       r.width - inset * 1.8,
       r.height * 0.62,
     ),
+    inset,
     inset,
   );
   canvas.drawRRect(rr, p);

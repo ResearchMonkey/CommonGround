@@ -8,16 +8,16 @@ void main() {
       final theme = buildCgTheme();
       expect(theme.brightness, Brightness.dark);
       expect(theme.useMaterial3, isTrue);
-      expect(theme.scaffoldBackgroundColor, CgColors.mapPlaceholder);
-      expect(theme.colorScheme.primary, CgColors.accent);
-      expect(theme.colorScheme.error, CgColors.signalOffline);
+      expect(theme.scaffoldBackgroundColor, CgColors.bg);
+      expect(theme.colorScheme.primary, CgColors.ok);
+      expect(theme.colorScheme.error, CgColors.danger);
     });
 
     test('text theme applies HUD label sizing', () {
       final theme = buildCgTheme();
       expect(theme.textTheme.labelSmall?.fontSize, 11);
-      expect(theme.textTheme.bodyMedium?.color, CgColors.hudOnSurface);
-      expect(theme.textTheme.labelSmall?.color, CgColors.hudOnSurfaceMuted);
+      expect(theme.textTheme.bodyMedium?.color, CgColors.text);
+      expect(theme.textTheme.labelSmall?.color, CgColors.text2);
     });
   });
 

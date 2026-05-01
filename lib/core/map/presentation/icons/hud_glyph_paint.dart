@@ -137,5 +137,45 @@ void paintHudGlyph(
     case HudIconGlyph.anchorPin:
       _paintAnchorPin(canvas, bounds, stroke);
       break;
+    case HudIconGlyph.mapPinPlus:
+      _paintMapPinPlus(canvas, bounds, stroke);
+      break;
+    case HudIconGlyph.hamburgerMenu:
+      _paintHamburgerMenu(canvas, bounds, stroke);
+      break;
+  }
+}
+
+void _paintMapPinPlus(Canvas canvas, Rect r, Paint p) {
+  final c = r.center;
+  final w = r.shortestSide;
+  // Teardrop body: M12 21s-6-5.5-6-11a6 6 0 1 1 12 0c0 5.5-6 11-6 11Z
+  final body = Path()
+    ..moveTo(c.dx, r.top + w * 0.86)
+    ..relativeQuadraticBezierTo(-w * 0.25, -w * 0.23, -w * 0.25, -w * 0.46)
+    ..relativeArcToPoint(
+      Offset(w * 0.5, 0),
+      radius: Radius.circular(w * 0.25),
+      largeArc: false,
+    )
+    ..relativeQuadraticBezierTo(0, w * 0.23, -w * 0.25, w * 0.46)
+    ..close();
+  canvas.drawPath(body, p);
+  // Inner +
+  final cx = c.dx;
+  final cy = c.dy - w * 0.06;
+  final arm = w * 0.12;
+  canvas.drawLine(Offset(cx, cy - arm), Offset(cx, cy + arm), p);
+  canvas.drawLine(Offset(cx - arm, cy), Offset(cx + arm, cy), p);
+}
+
+void _paintHamburgerMenu(Canvas canvas, Rect r, Paint p) {
+  final inset = r.shortestSide * 0.18;
+  final left = r.left + inset;
+  final right = r.right - inset;
+  final h = r.height;
+  for (var i = 0; i < 3; i++) {
+    final y = r.top + h * (0.3 + i * 0.2);
+    canvas.drawLine(Offset(left, y), Offset(right, y), p);
   }
 }
