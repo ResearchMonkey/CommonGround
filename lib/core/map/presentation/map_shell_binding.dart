@@ -1,6 +1,8 @@
 import 'package:commonground/core/event_bus/data/event_bus_impl.dart';
 import 'package:commonground/core/event_bus/data/forwarding_ingest_layer.dart';
 import 'package:commonground/core/event_bus/data/log_event_bus_subscriber_stub.dart';
+import 'package:commonground/core/map/data/in_memory_map_hud_session_store.dart';
+import 'package:commonground/core/map/data/stub_map_camera_controller.dart';
 import 'package:commonground/core/map/domain/position_snapshot_event.dart';
 import 'package:commonground/core/map/presentation/cg_design_tokens.dart';
 import 'package:commonground/core/map/presentation/map_hud_bus_subscriber_stub.dart';
@@ -25,6 +27,8 @@ class _MapShellBindingState extends State<MapShellBinding> {
   late final EventBusImpl _bus;
   late final CgLoggerContract _logger;
   late final ForwardingIngestLayer _ingest;
+  late final StubMapCameraController _cameraController;
+  late final InMemoryMapHudSessionStore _sessionStore;
   late final MapHudChromeCubit _chromeCubit;
   late final MapHudBusSubscriberStub _subscriber;
   late final LogEventBusSubscriberStub _logBusSubscriber;
@@ -39,10 +43,16 @@ class _MapShellBindingState extends State<MapShellBinding> {
       publishLogEvent: (e) => _bus.publish(e),
     );
     _ingest = ForwardingIngestLayer(_bus);
-    _chromeCubit = MapHudChromeCubit();
+    _cameraController = StubMapCameraController();
+    _sessionStore = InMemoryMapHudSessionStore();
+    _chromeCubit = MapHudChromeCubit(
+      cameraController: _cameraController,
+      sessionStore: _sessionStore,
+    );
     _subscriber = MapHudBusSubscriberStub(
       eventBus: _bus,
       onPosition: _chromeCubit.applyPositionSnapshot,
+      onLocation: _chromeCubit.applyLocationEvent,
     );
     _logBusSubscriber = LogEventBusSubscriberStub(_bus);
 
@@ -78,6 +88,7 @@ class _MapShellBindingState extends State<MapShellBinding> {
     _logBusSubscriber.dispose();
     _subscriber.dispose();
     _chromeCubit.close();
+    _cameraController.dispose();
     _bus.shutdown();
     super.dispose();
   }
