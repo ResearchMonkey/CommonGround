@@ -12,12 +12,25 @@ abstract final class CgColors {
   /// Floating HUD chrome (frosted) — rgba(15,20,25,0.78).
   static const Color hudBg = Color(0xC70F1419);
 
+  /// Solid fallback for HUD chrome where blur isn't available.
+  static const Color hudBgSolid = Color(0xFF0F1419);
+
   /// HUD chrome border / divider. Not in spec; kept for stroke detail.
   static const Color hudOutline = Color(0x59FFFFFF);
+
+  /// Soft chrome border — rgba(232,234,237,0.10).
+  static const Color hudBorder = Color(0x1AE8EAED);
+
+  /// Stronger chrome border (sheet/popover edge) — rgba(232,234,237,0.18).
+  static const Color hudBorderStrong = Color(0x2EE8EAED);
+
+  /// Modal scrim — rgba(8,11,15,0.55).
+  static const Color scrim = Color(0x8C080B0F);
 
   static const Color text = Color(0xFFE8EAED);
   static const Color text2 = Color(0xFFA7AFBA);
   static const Color text3 = Color(0xFF6E7785);
+  static const Color textInv = Color(0xFF0F1419);
 
   static const Color ok = Color(0xFF4ADE80);
   static const Color warn = Color(0xFFFBBF24);
